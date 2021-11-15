@@ -10,6 +10,9 @@ const prompt = require("prompt-sync")({ sigint: true });
 const path = "./data/";
 const crawlFilePath = "./url-crawl.txt";
 
+let finalCsv =
+	'"NAME","ID","BASIN","ISO_TIME_________","NATURE","LAT","LON","WMO WIND","WMO PRES","USA WIND","TOKYO WIND","TOKYO PRES","CMA WIND","CMA PRES","HKO WIND","HKO PRES"\n';
+
 (async () => {
 	//Fetching web page
 	console.log(`Fetching ${crawlFilePath} ...`);
@@ -30,14 +33,46 @@ const crawlFilePath = "./url-crawl.txt";
 			'table[border="1"][width="650"]'
 		)[0].outerHTML;
 
+		//parse name and id
+		let name = "",
+			id = "";
+		let separatedName = dom.window.document
+			.querySelectorAll("h1")[0]
+			.textContent.split("\n")[2]
+			.split(" ");
+		for (let i = 0; i < separatedName.length; ++i) {
+			if (
+				separatedName[i] !== "" &&
+				separatedName[i] === separatedName[i].toUpperCase()
+			) {
+				name = separatedName[i];
+				break;
+			}
+		}
+		id = separatedName[separatedName.length - 1];
+		console.log({ name, id });
+
 		//convert table to csv
 		const csv = tableToCsv(table);
 
-		//define file name to save
-		const fileName = path + url.split("-")[1] + ".csv";
+		//append csv to final csv
+		finalCsv = finalCsv.concat(
+			csv
+				.split("\n")
+				.slice(2)
+				.map((str) =>
+					str !== ""
+						? `"${name}","${id
+								.split("")
+								.slice(1, id.length - 1)
+								.join("")}",`.concat(str)
+						: str
+				)
+				.join("\n")
+		);
 
 		//write to file
-		fs.writeFileSync(fileName, csv);
+		fs.writeFileSync(path + `result.csv`, finalCsv);
 	});
 })();
 
