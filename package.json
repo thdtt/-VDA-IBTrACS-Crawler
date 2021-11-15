@@ -1,0 +1,25 @@
+{
+  "name": "ibtracs-crawl",
+  "version": "1.0.0",
+  "description": "iBTrACS crawler",
+  "main": "crawl.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thdtt/-VDA-IBTrACS-Crawler.git"
+  },
+  "author": "thdtt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thdtt/-VDA-IBTrACS-Crawler/issues"
+  },
+  "homepage": "https://github.com/thdtt/-VDA-IBTrACS-Crawler#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "jsdom": "^18.1.0",
+    "node-table-to-csv": "^0.1.0",
+    "prompt-sync": "^4.2.0"
+  }
+}
